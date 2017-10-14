@@ -1,9 +1,19 @@
-// JAYNE DE OLIVEIRA
+// JAYNE DE OLIVEIRA oliveirajne@gmail.com
 
+/*
+valor a ser recebido por venda pode ser alterado no define
+201710141736 implementada funcao para alterar a meta
+*/
 
 #include <stdio.h>
 #include <stdlib.h>
-#define meta 50
+
+#define var1 6
+#define var2 10
+#define var3 14
+
+int _meta = 0;
+void getmeta();
 
 int realizado();
 int faltas();
@@ -21,7 +31,7 @@ int main() {
 	printf("\n\t\tPressione 1 para inserir a quantidade\n\t\tde vendas realizadas pelo colaborador.\n");
 	printf("\t\tO sistema realizara o calculo e mostrara \n\t\to desempenho e valor a ser recebido.\n");
 	printf("\t\tPressione 0 para sair.\n\n\n");
-	scanf_s("%d", &escolha);
+	scanf("%d", &escolha);
 	fflush(stdin);
 
 	while (escolha != 0) {
@@ -30,22 +40,30 @@ int main() {
 		case 0:
 			break;
 		case 1:
+		    getmeta();
 			desempenho();
 
-
-
-
 		default:
-			printf("\t\tEntrar(1)/Sair(0)\n\n\n");
-			scanf_s("%d", &escolha);
+			printf("\n\t\tEntrar(1)/Sair(0)\n\n\n");
+			scanf("%d", &escolha);
 			fflush(stdin);
 			continue;
 		}
 	}
 
-	system("pause");
+//	system("pause");
 	return 0;
 
+
+}
+
+void getmeta() {
+    int metabase;
+    printf("Informe a meta base de vendas: \n");
+    scanf("%d", &metabase);
+    fflush(stdin);
+
+    _meta = metabase;
 
 }
 
@@ -53,7 +71,7 @@ int main() {
 int realizado() {
 	int qnt;
 	printf("Digite a quantidade de vendas: \n");
-	scanf_s("%d", &qnt);
+	scanf("%d", &qnt);
 	fflush(stdin);
 
 	return qnt;
@@ -64,20 +82,18 @@ int realizado() {
 int faltas() {
 	int flt;
 	printf("Quantidade de faltas: \n");
-	scanf_s("%d", &flt);
-	
+	scanf("%d", &flt);
+
 	return flt;
 }
 
 
-int calcula(){
+int calcula() {
 	int quantidade, base;
-	
+
 	quantidade = realizado();
 
-	base = (quantidade * 100) / meta;
-
-
+	base = (quantidade * 100) / _meta;
 
 	return base;
 }
@@ -85,11 +101,27 @@ int calcula(){
 
 void desempenho() {
 	int final, abs;
+	float rv;
 	final = calcula();
 	abs = faltas();
 
+    printf("\n*******************************\n");
 	if ((final >= 70) && (abs < 2)) {
-		printf("\t\n\n O desempenho em relacao a meta foi de: %d por cento\n\n", final);
+		if ((final >= 70) && (final < 100)) {
+			rv = ((final * _meta) / 100) * var1;
+			printf("\t\n\n O desempenho em relacao a meta foi de: %d por cento", final);
+			printf("\t\n Valor a ser recebido: %.2f \n\n", rv);
+		}
+		else if ((final >= 100) && (final < 130)) {
+			rv = ((final * _meta) / 100) * var2;
+			printf("\t\n\n O desempenho em relacao a meta foi de: %d por cento", final);
+			printf("\t\n Valor a ser recebido: %.2f \n\n", rv);
+		}
+		else {
+			rv = ((final * _meta) / 100) * var3;
+			printf("\t\n\n O desempenho em relacao a meta foi de: %d por cento", final);
+			printf("\t\n Valor a ser recebido: %.2f \n\n", rv);
+		}
 	}
 	else if ((final >= 70) && (abs >= 2)) {
 		printf("\t\n\n O desempenho em relacao a meta foi de: %d por cento", final);
@@ -98,7 +130,7 @@ void desempenho() {
 	else {
 		printf("\t\n\n O desempenho minimo nao foi alcancado: %d por cento\n\n", final);
 	}
-	
+
 	system("pause");
 
 
